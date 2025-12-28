@@ -4,6 +4,7 @@ import email.utils
 from email.header import decode_header
 from datetime import datetime, timezone
 from pathlib import Path
+from mailbox_path import _mailbox_path
 
 DB_PATH = "mail.sqlite"
 

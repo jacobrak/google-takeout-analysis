@@ -15,7 +15,11 @@ def decode_mime_header(value: str) -> str:
     parts = []
     for text, enc in decode_header(value):
         if isinstance(text, bytes):
-            parts.append(text.decode(enc or "utf-8", errors="replace"))
+            try:
+                parts.append(text.decode(enc or "utf-8", errors="replace"))
+            except (LookupError, UnicodeDecodeError):
+                # Fallback for unknown encodings like 'unknown-8bit'
+                parts.append(text.decode("latin-1", errors="replace"))
         else:
             parts.append(text)
     return "".join(parts)
